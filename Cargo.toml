@@ -1,0 +1,20 @@
+[package]
+name = "persist"
+version = "0.1.0"
+edition = "2021"
+license = "0BSD"
+
+[dependencies]
+ron = { version = "0.7.1", optional = true }
+serde = { version = "1.0.143", default-features = false }
+serde_json = { version = "1.0.83", optional = true }
+serde_yaml = { version = "0.9.4", optional = true }
+tokio = { version = "1.20.1", features = ["io-util", "fs"], optional = true }
+toml = { version = "0.5.9", optional = true }
+
+[features]
+default = []
+tokio = ["dep:tokio"]
+json = ["dep:serde_json"]
+yaml = ["dep:serde_yaml"]
+toml = ["dep:toml"]
