@@ -1,13 +1,19 @@
+//! Provides a [`Format`] implementation for [`toml`]
+//!
+
+use crate::Format;
+
+/// Normal formatted TOML
 pub struct Toml;
 
-impl crate::Format for Toml {
+impl Format for Toml {
     const EXTENSION: &'static str = "toml";
     type SerializeErr = toml::ser::Error;
     type DeserializeErr = toml::de::Error;
 
     fn from_slice<T>(data: &[u8]) -> Result<T, Self::DeserializeErr>
     where
-        for<'de> T: serde::Deserialize<'de>,
+        T: for<'de> serde::Deserialize<'de>,
     {
         toml::from_slice(data)
     }
@@ -20,16 +26,17 @@ impl crate::Format for Toml {
     }
 }
 
+/// Pretty formatted TOML
 pub struct TomlPretty;
 
-impl crate::Format for TomlPretty {
+impl Format for TomlPretty {
     const EXTENSION: &'static str = "toml";
     type SerializeErr = toml::ser::Error;
     type DeserializeErr = toml::de::Error;
 
     fn from_slice<T>(data: &[u8]) -> Result<T, Self::DeserializeErr>
     where
-        for<'de> T: serde::Deserialize<'de>,
+        T: for<'de> serde::Deserialize<'de>,
     {
         toml::from_slice(data)
     }

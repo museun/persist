@@ -1,13 +1,19 @@
+//! Provides a [`Format`] implementation for [`serde_json`]
+//!
+
+use crate::Format;
+
+/// Normal formatted JSON
 pub struct Json;
 
-impl crate::Format for Json {
+impl Format for Json {
     const EXTENSION: &'static str = "json";
     type SerializeErr = serde_json::Error;
     type DeserializeErr = serde_json::Error;
 
     fn from_slice<T>(data: &[u8]) -> Result<T, Self::DeserializeErr>
     where
-        for<'de> T: serde::Deserialize<'de>,
+        T: for<'de> serde::Deserialize<'de>,
     {
         serde_json::from_slice(data)
     }
@@ -20,16 +26,17 @@ impl crate::Format for Json {
     }
 }
 
+/// Pretty formatted JSON
 pub struct JsonPretty;
 
-impl crate::Format for JsonPretty {
+impl Format for JsonPretty {
     const EXTENSION: &'static str = "json";
     type SerializeErr = serde_json::Error;
     type DeserializeErr = serde_json::Error;
 
     fn from_slice<T>(data: &[u8]) -> Result<T, Self::DeserializeErr>
     where
-        for<'de> T: serde::Deserialize<'de>,
+        T: for<'de> serde::Deserialize<'de>,
     {
         serde_json::from_slice(data)
     }

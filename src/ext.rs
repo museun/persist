@@ -3,8 +3,10 @@ use serde::{Deserialize, Serialize};
 use crate::{Format, Persist};
 use std::{fs::File, path::Path};
 
+/// Extension trait to provide useful helpers for the [`Persist`] trait
 pub trait PersistExt: Persist {
-    fn save_to_file<K>(&self, path: &dyn AsRef<Path>) -> Result<(), K::SerializeErr>
+    /// Save this type, with the provided [`Format`] to the [`Path`] provided
+    fn save_to_file<K>(&self, path: impl AsRef<Path>) -> Result<(), K::SerializeErr>
     where
         K: Format,
         Self: Serialize,
@@ -14,7 +16,8 @@ pub trait PersistExt: Persist {
         self.save::<K>(&mut file)
     }
 
-    fn load_from_file<K>(path: &dyn AsRef<Path>) -> Result<Self, K::DeserializeErr>
+    /// Load this type, with the provided [`Format`] from the [`Path`] provided
+    fn load_from_file<K>(path: impl AsRef<Path>) -> Result<Self, K::DeserializeErr>
     where
         K: Format,
         Self: for<'de> Deserialize<'de>,

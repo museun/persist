@@ -1,13 +1,21 @@
+//! Provides a [`Format`] implementation for [`serde_yaml`]
+//!
+
+/// Normal formatted YAML
+///
+/// **NOTE** the extension is `yaml`, rather than `yml`
 pub struct Yaml;
 
-impl crate::Format for Yaml {
+use crate::Format;
+
+impl Format for Yaml {
     const EXTENSION: &'static str = "yaml";
     type SerializeErr = serde_yaml::Error;
     type DeserializeErr = serde_yaml::Error;
 
     fn from_slice<T>(data: &[u8]) -> Result<T, Self::DeserializeErr>
     where
-        for<'de> T: serde::Deserialize<'de>,
+        T: for<'de> serde::Deserialize<'de>,
     {
         serde_yaml::from_slice(data)
     }
